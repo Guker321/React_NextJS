@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { LayoutProps } from './Layout.props';
 import styles from './Layout.module.css';
 import cn from 'classnames';
@@ -6,10 +6,10 @@ import { Header } from './Header/Header';
 import { Sidebar } from './Sidebar/Sidebar';
 import { Footer } from './Footer/Footer';
 
-export const Layout = ({ children }: LayoutProps): JSX.Element => {
+const Layout = ({ children }: LayoutProps): JSX.Element => {
   return (
     <>
-      <Header />
+      <Header /> 
       <div>
         <Sidebar />
         <div>{children}</div>
@@ -17,4 +17,14 @@ export const Layout = ({ children }: LayoutProps): JSX.Element => {
       <Footer />
     </>
   );
+};
+// Функция высшего порядка принимает на вход компонент и возвращает компонент.
+export const withLayout = <T extends Record<string, unknown>>(Component: FunctionComponent<T>) => {
+  return function withLayoutComponent(props: T): JSX.Element {
+    return (
+      <Layout>
+        <Component {...props}/>
+      </Layout>
+    );
+  };
 };
